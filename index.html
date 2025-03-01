@@ -33,15 +33,15 @@
         }
 
         if (typeof net !== "undefined") {
-            print("Client script initialized")
-            net.Receive("SendLoadingScreenData", function(len)
-                local data = net.ReadTable()
-                print("Received player data on client:")
-                console.table(data)
-                updatePlayerData(data)
-            end)
+            console.log("Client script initialized"); // Use console.log for browser compatibility
+            net.Receive("SendLoadingScreenData", function(len) {
+                var data = net.ReadTable();
+                console.log("Received player data on client:");
+                console.table(data);
+                updatePlayerData(data);
+            });
         } else {
-            print("Net library not available - not running in GMod?")
+            console.log("Net library not available - not running in GMod?");
         }
 
         const images = [
