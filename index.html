@@ -12,13 +12,13 @@
     <div class="lifestyle">Lifestyle</div>
     <div class="player-info-box">
         <div class="player-info">
-            <p><img src="https://cdn-icons-png.flaticon.com/128/1077/1077114.png" class="icon"> <span id="player-name">Firstname Lastname</span></p>
-            <p><img src="https://cdn-icons-png.flaticon.com/128/3064/3064170.png" class="icon"> Bank: $<span id="bank-amount">1000</span></p>
-            <p><img src="https://cdn-icons-png.flaticon.com/128/2281/2281443.png" class="icon"> Cash: $<span id="cash-amount">500</span></p>
-            <p><img src="https://cdn-icons-png.flaticon.com/128/2784/2784060.png" class="icon"> Playtime: <span id="playtime">50h</span></p>
-            <p><img src="https://cdn-icons-png.flaticon.com/128/3135/3135715.png" class="icon"> Model: <span id="player-model">[Player Model]</span></p>
-            <p><img src="https://cdn-icons-png.flaticon.com/128/3163/3163478.png" class="icon"> Skills: <span id="skills">10/20</span></p>
-            <p><img src="https://cdn-icons-png.flaticon.com/128/3588/3588423.png" class="icon"> Vehicles: <span id="vehicles">3</span></p>
+            <p><img src="https://cdn-icons-png.flaticon.com/128/1077/1077114.png" class="icon"> <span id="player-name">Loading...</span></p>
+            <p><img src="https://cdn-icons-png.flaticon.com/128/3064/3064170.png" class="icon"> Bank: $<span id="bank-amount">0</span></p>
+            <p><img src="https://cdn-icons-png.flaticon.com/128/2281/2281443.png" class="icon"> Cash: $<span id="cash-amount">0</span></p>
+            <p><img src="https://cdn-icons-png.flaticon.com/128/2784/2784060.png" class="icon"> Playtime: <span id="playtime">0h</span></p>
+            <p><img src="https://cdn-icons-png.flaticon.com/128/3135/3135715.png" class="icon"> Model: <span id="player-model">[Loading]</span></p>
+            <p><img src="https://cdn-icons-png.flaticon.com/128/3163/3163478.png" class="icon"> Skills: <span id="skills">0/12</span></p>
+            <p><img src="https://cdn-icons-png.flaticon.com/128/3588/3588423.png" class="icon"> Vehicles: <span id="vehicles">0</span></p>
         </div>
     </div>
     <script>
@@ -32,21 +32,30 @@
             document.getElementById("vehicles").innerText = data.vehicles;
         }
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const playerData = {
-            firstname: urlParams.get("firstname") || "Unknown",
-            lastname: urlParams.get("lastname") || "Player",
-            bank: urlParams.get("bank") || "0",
-            cash: urlParams.get("cash") || "0",
-            playtime: urlParams.get("playtime") || "0h",
-            model: urlParams.get("model") || "[Player Model]",
-            skills: urlParams.get("skills") || "0/12",
-            vehicles: urlParams.get("vehicles") || "0"
-        };
-
-        console.log("Loaded player data from URL:");
-        console.table(playerData);
-        updatePlayerData(playerData);
+        if (typeof net !== "undefined") {
+            console.log("Net library available");
+            net.Receive("SendLoadingScreenData", function(len) {
+                var data = net.ReadTable();
+                console.log("Received net data:");
+                console.table(data);
+                updatePlayerData(data);
+            });
+        } else {
+            console.log("Net library not available yet");
+            setTimeout(function() {
+                if (typeof net !== "undefined") {
+                    console.log("Net library now available");
+                    net.Receive("SendLoadingScreenData", function(len) {
+                        var data = net.ReadTable();
+                        console.log("Received net data (delayed):");
+                        console.table(data);
+                        updatePlayerData(data);
+                    });
+                } else {
+                    console.log("Net library still not available");
+                }
+            }, 1000); // Retry after 1 second
+        }
 
         const images = [
             'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
