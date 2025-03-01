@@ -21,9 +21,7 @@
             <p><img src="https://cdn-icons-png.flaticon.com/128/3588/3588423.png" class="icon"> Vehicles: <span id="vehicles">3</span></p>
         </div>
     </div>
-
     <script>
-        // Player data update
         function updatePlayerData(data) {
             document.getElementById("player-name").innerText = data.firstname + " " + data.lastname;
             document.getElementById("bank-amount").innerText = data.bank;
@@ -33,8 +31,6 @@
             document.getElementById("skills").innerText = data.skills;
             document.getElementById("vehicles").innerText = data.vehicles;
         }
-
-        // Background rotation with high-res Unsplash images
         const images = [
             'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
             'https://images.unsplash.com/photo-1472214103451-9374bd1c798e',
@@ -57,25 +53,19 @@
             'https://images.unsplash.com/photo-1506260408121-e353d10b87c7',
             'https://images.unsplash.com/photo-1446329813274-7c66501d9d01'
         ];
-
-        // Preload images to avoid white flash
-        images.forEach(src => {
-            const img = new Image();
-            img.src = src;
-        });
-
+        images.forEach(src => { const img = new Image(); img.src = src; });
         let currentImage = 0;
         const background = document.querySelector('.background');
         function rotateBackground() {
-            background.style.opacity = 0; // Fade out
+            background.style.opacity = 0;
             setTimeout(() => {
                 background.style.backgroundImage = `url(${images[currentImage]})`;
-                background.style.opacity = 1; // Fade in
+                background.style.opacity = 1;
                 currentImage = (currentImage + 1) % images.length;
-            }, 500); // Match fade-out duration
+            }, 500);
         }
         rotateBackground();
-        setInterval(rotateBackground, 5000); // Rotate every 5 seconds
+        setInterval(rotateBackground, 5000);
     </script>
 </body>
 </html>
