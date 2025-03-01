@@ -32,7 +32,6 @@
             document.getElementById("vehicles").innerText = data.vehicles;
         }
 
-        // Read query parameters from URL
         const urlParams = new URLSearchParams(window.location.search);
         const playerData = {
             firstname: urlParams.get("firstname") || "Unknown",
