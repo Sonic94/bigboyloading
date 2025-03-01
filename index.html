@@ -32,30 +32,20 @@
             document.getElementById("vehicles").innerText = data.vehicles;
         }
 
-        if (typeof net !== "undefined") {
-            console.log("Net library available");
-            net.Receive("SendLoadingScreenData", function(len) {
-                var data = net.ReadTable();
-                console.log("Received net data:");
-                console.table(data);
-                updatePlayerData(data);
-            });
-        } else {
-            console.log("Net library not available yet");
-            setTimeout(function() {
-                if (typeof net !== "undefined") {
-                    console.log("Net library now available");
-                    net.Receive("SendLoadingScreenData", function(len) {
-                        var data = net.ReadTable();
-                        console.log("Received net data (delayed):");
-                        console.table(data);
-                        updatePlayerData(data);
-                    });
-                } else {
-                    console.log("Net library still not available");
-                }
-            }, 1000); // Retry after 1 second
-        }
+        const urlParams = new URLSearchParams(window.location.search);
+        const playerData = {
+            firstname: urlParams.get("firstname") || "Unknown",
+            lastname: urlParams.get("lastname") || "Player",
+            bank: urlParams.get("bank") || "0",
+            cash: urlParams.get("cash") || "0",
+            playtime: urlParams.get("playtime") || "0h",
+            model: urlParams.get("model") || "[Player Model]",
+            skills: urlParams.get("skills") || "0/12",
+            vehicles: urlParams.get("vehicles") || "0"
+        };
+        console.log("Loaded player data from URL:");
+        console.table(playerData);
+        updatePlayerData(playerData);
 
         const images = [
             'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
