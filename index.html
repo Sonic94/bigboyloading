@@ -32,14 +32,16 @@
             document.getElementById("vehicles").innerText = data.vehicles;
         }
 
-        // Client-side receiver for player data
         if (typeof net !== "undefined") {
+            print("Client script initialized")
             net.Receive("SendLoadingScreenData", function(len)
                 local data = net.ReadTable()
                 print("Received player data on client:")
-                console.table(data) -- Debug in client console
+                console.table(data)
                 updatePlayerData(data)
             end)
+        } else {
+            print("Net library not available - not running in GMod?")
         }
 
         const images = [
