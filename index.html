@@ -31,6 +31,17 @@
             document.getElementById("skills").innerText = data.skills;
             document.getElementById("vehicles").innerText = data.vehicles;
         }
+
+        // Client-side receiver for player data
+        if (typeof net !== "undefined") {
+            net.Receive("SendLoadingScreenData", function(len)
+                local data = net.ReadTable()
+                print("Received player data on client:")
+                console.table(data) -- Debug in client console
+                updatePlayerData(data)
+            end)
+        }
+
         const images = [
             'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
             'https://images.unsplash.com/photo-1472214103451-9374bd1c798e',
