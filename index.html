@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GMod Loading Screen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Damion&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background"></div>
+    <div class="lifestyle">Lifestyle</div>
+    <div class="player-info-box">
+        <div class="player-info">
+            <p><img src="https://cdn-icons-png.flaticon.com/128/1077/1077114.png" class="icon"> <span id="player-name">Firstname Lastname</span></p>
+            <p><img src="https://cdn-icons-png.flaticon.com/128/3064/3064170.png" class="icon"> Bank: $<span id="bank-amount">1000</span></p>
+            <p><img src="https://cdn-icons-png.flaticon.com/128/2281/2281443.png" class="icon"> Cash: $<span id="cash-amount">500</span></p>
+            <p><img src="https://cdn-icons-png.flaticon.com/128/2784/2784060.png" class="icon"> Playtime: <span id="playtime">50h</span></p>
+            <p><img src="https://cdn-icons-png.flaticon.com/128/3135/3135715.png" class="icon"> Model: <span id="player-model">[Player Model]</span></p>
+            <p><img src="https://cdn-icons-png.flaticon.com/128/3163/3163478.png" class="icon"> Skills: <span id="skills">10/20</span></p>
+            <p><img src="https://cdn-icons-png.flaticon.com/128/3588/3588423.png" class="icon"> Vehicles: <span id="vehicles">3</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Player data update
+        function updatePlayerData(data) {
+            document.getElementById("player-name").innerText = data.firstname + " " + data.lastname;
+            document.getElementById("bank-amount").innerText = data.bank;
+            document.getElementById("cash-amount").innerText = data.cash;
+            document.getElementById("playtime").innerText = data.playtime;
+            document.getElementById("player-model").innerText = data.model;
+            document.getElementById("skills").innerText = data.skills;
+            document.getElementById("vehicles").innerText = data.vehicles;
+        }
+
+        // Background rotation with high-res Unsplash images
+        const images = [
+            'https://images.unsplash.com/photo-1506744038136-46273834b3fb',
+            'https://images.unsplash.com/photo-1472214103451-9374bd1c798e',
+            'https://images.unsplash.com/photo-1501785888041-af3ef285b470',
+            'https://images.unsplash.com/photo-1441974231531-c6227db76b6e',
+            'https://images.unsplash.com/photo-1507525428034-b723cf961d3e',
+            'https://images.unsplash.com/photo-1511300636408-a54c99f94531',
+            'https://images.unsplash.com/photo-1447752875217-c3b8189c770f',
+            'https://images.unsplash.com/photo-1508739773434-c26b3d09e917',
+            'https://images.unsplash.com/photo-1470770841072-6b0bcdf06e96',
+            'https://images.unsplash.com/photo-1501854140801-50d01698950b',
+            'https://images.unsplash.com/photo-1518495973541-977bb03fe488',
+            'https://images.unsplash.com/photo-1505832018823-06be4419d666',
+            'https://images.unsplash.com/photo-1482192505345-5655af888cc4',
+            'https://images.unsplash.com/photo-1510798831971-66156bff513f',
+            'https://images.unsplash.com/photo-1502224562085-639556652f33',
+            'https://images.unsplash.com/photo-1438786657495-640937046d18',
+            'https://images.unsplash.com/photo-1504297050568-910d24c426d3',
+            'https://images.unsplash.com/photo-1518173835740-f16733e7ae99',
+            'https://images.unsplash.com/photo-1506260408121-e353d10b87c7',
+            'https://images.unsplash.com/photo-1446329813274-7c66501d9d01'
+        ];
+
+        // Preload images to avoid white flash
+        images.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+
+        let currentImage = 0;
+        const background = document.querySelector('.background');
+        function rotateBackground() {
+            background.style.opacity = 0; // Fade out
+            setTimeout(() => {
+                background.style.backgroundImage = `url(${images[currentImage]})`;
+                background.style.opacity = 1; // Fade in
+                currentImage = (currentImage + 1) % images.length;
+            }, 500); // Match fade-out duration
+        }
+        rotateBackground();
+        setInterval(rotateBackground, 5000); // Rotate every 5 seconds
+    </script>
+</body>
+</html>
